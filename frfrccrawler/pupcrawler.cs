@@ -26,7 +26,7 @@ namespace pupcrawl
                 Headless = true
             });
 
-            await ParsePages(new Uri("https://www.nejm.org/"), maxDepth);
+            await ParsePages(new Uri("https://www.arxiv-sanity-lite.com/"), maxDepth);
 
 
 
@@ -68,8 +68,35 @@ namespace pupcrawl
             {
                 using var page = await browser.NewPageAsync();
                 await page.GoToAsync(fullUrl.ToString(), WaitUntilNavigation.Networkidle0);
+                //await page.GoToAsync(fullUrl.ToString(), 4500,null);
                 string content = await page.GetContentAsync();
-                //Console.WriteLine(content);
+               Console.WriteLine(content);
+                Console.WriteLine("djbejd");
+                return content;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Problem parsing: {fullUrl}\n{e}" + e);
+                return null;
+            }
+        }
+
+        public async Task<string> GetContentwithbrowser(Uri fullUrl)
+        {
+            try
+
+            {
+                await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+                browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                {
+                    Headless = true
+                });
+                using var page = await browser.NewPageAsync();
+                await page.GoToAsync(fullUrl.ToString(), WaitUntilNavigation.Networkidle0);
+                //await page.GoToAsync(fullUrl.ToString(), 4500,null);
+                string content = await page.GetContentAsync();
+                Console.WriteLine(content);
                 Console.WriteLine("djbejd");
                 return content;
 

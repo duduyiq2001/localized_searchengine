@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -17,7 +18,7 @@ namespace Crawler
         public webCrawler(int maxdepth)
         {
             maxDepth = maxdepth;
-
+            _client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537");
         }
         public async Task start()
         {
@@ -68,8 +69,36 @@ namespace Crawler
             {
                 var response = await _client.GetAsync(fullUrl);
                 var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(content);
 
                 return content;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Problem parsing: {fullUrl}\n{e}" + e);
+                return null;
+            }
+        }
+        public async Task<string> GetContentfromoutside(Uri fullUrl)
+        {
+            try
+            {
+                var response = await _client.GetAsync(fullUrl);
+
+                // Ensure a successful response
+                response.EnsureSuccessStatusCode();
+
+                // Read the response content as a stream
+                using (Stream stream = await response.Content.ReadAsStreamAsync())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    // Read the content as a string
+                    string content = await reader.ReadToEndAsync();
+                    Console.WriteLine(content);
+
+                }
+
+                return "oops";
             }
             catch (Exception e)
             {
