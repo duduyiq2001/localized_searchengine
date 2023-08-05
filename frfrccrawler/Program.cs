@@ -3,10 +3,15 @@ using Crawler;
 using System.Threading.Tasks;
 using pupcrawl;
 using engine;
+
+
+
 namespace maintask
 {
     class Program
     {
+
+        
         static async Task Main(string[] args)
         {
             /*
@@ -15,9 +20,14 @@ namespace maintask
             */
             //pupcrawler newcrawl = new pupcrawler(2);
             //await newcrawl.start();
+     
+
+            // Register other services here
+
+        
             fetchfromengine e = new fetchfromengine();
             Console.WriteLine("wdnjnw");
-            await e.start();
+            await e.start(2,"vagina","date");
 
         }
     }
