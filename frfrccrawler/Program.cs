@@ -3,6 +3,7 @@ using Crawler;
 using System.Threading.Tasks;
 using pupcrawl;
 using engine;
+using parser;
 
 
 
@@ -20,14 +21,22 @@ namespace maintask
             */
             //pupcrawler newcrawl = new pupcrawler(2);
             //await newcrawl.start();
-     
+
 
             // Register other services here
 
         
+            string query = Console.ReadLine();
+            int request_number = Int32.Parse(Console.ReadLine());
+            string sort_method = Console.ReadLine();
+        
             fetchfromengine e = new fetchfromengine();
             Console.WriteLine("wdnjnw");
-            await e.start(2,"vagina","date");
+            string content = await e.start(request_number,query,sort_method);
+            searchparser prsr = new searchparser(content);
+            await prsr.start();
+
+
 
         }
     }

@@ -94,8 +94,12 @@ namespace Crawler
                 {
                     // Read the content as a string
                     string content = await reader.ReadToEndAsync();
-                    Console.WriteLine(content);
-
+                    //Console.WriteLine(content);
+                    using (StreamWriter outputFile = new StreamWriter("C://Windows//Temp//output.txt"))
+                    {
+                        await outputFile.WriteAsync(content);
+                    }
+                    return content;
                 }
 
                 return "oops";

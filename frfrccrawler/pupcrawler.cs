@@ -96,8 +96,8 @@ namespace pupcrawl
                 await page.GoToAsync(fullUrl.ToString(), WaitUntilNavigation.Networkidle0);
                 //await page.GoToAsync(fullUrl.ToString(), 4500,null);
                 string content = await page.GetContentAsync();
-                Console.WriteLine(content);
-                Console.WriteLine("djbejd");
+               // Console.WriteLine(content);
+                //Console.WriteLine("djbejd");
                 return content;
 
             }
