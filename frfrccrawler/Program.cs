@@ -35,6 +35,8 @@ namespace maintask
             string content = await e.start(request_number,query,sort_method);
             searchparser prsr = new searchparser(content);
             await prsr.start();
+            prsr.revealall();
+
 
 
 

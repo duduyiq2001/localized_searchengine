@@ -20,7 +20,10 @@ namespace parser
         public string date;
         public Uri uri;
         public string abs;
-
+        public override string ToString()
+        {
+            return $"{title}, {date}\n Link: {uri}\n \t {abs}";
+        }
     };
 
     class searchparser
@@ -65,14 +68,20 @@ namespace parser
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(content);
+            string abst = "";
             //var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//body");
 
             var headings = htmlDoc.DocumentNode.Descendants().Where(n => n.Name.StartsWith("h") && n.Name.Length == 2&& (n.InnerHtml.Contains("abstract") || n.InnerHtml.Contains("Abstract")));
 
             foreach (var node in headings)
             {
-                
-                    Console.WriteLine(node.InnerHtml);
+
+                    var paragraphs = node.ParentNode.Descendants("p");
+                    foreach (var pa in paragraphs)
+                {
+                    //Console.WriteLine(pa.InnerHtml);
+                    abst += pa.InnerText + "\n";
+                }
                     /*
                     using (StreamWriter outputFile = new StreamWriter("C://Windows//Temp//output1.txt"))
                     {
@@ -85,7 +94,18 @@ namespace parser
             
             
 
-            return "oops";
+            return abst;
+        }
+        public void revealall()
+        {
+            foreach(var site in sites)
+            {
+                Console.WriteLine(site.ToString()+ "\n");
+            }
+        }
+        public void clearall()
+        {
+            sites.Clear();
         }
 
     }
