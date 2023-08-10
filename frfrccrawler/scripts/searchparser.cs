@@ -14,12 +14,14 @@ using System.Linq;
 namespace parser
 {
     
-    struct siteinfo
+    public struct siteinfo
     {
-        public string title;
-        public string date;
-        public Uri uri;
-        public string abs;
+        public string title { get; set; }
+        public string date { get; set; }
+        public Uri uri { get; set; }
+        public string abs
+        {
+            get; set; }
         public override string ToString()
         {
             return $"{title}, {date}\n Link: {uri}\n \t {abs}";
@@ -50,9 +52,18 @@ namespace parser
                     theinfo.date = (string)results[i]["pagemap"]["metatags"][0]["dc.date"];
                     Uri theuri = new Uri((string)results[i]["link"]);
                     theinfo.uri = theuri;
-                    
+
                     // puppetteer site
-                    string content = await pup.GetContentwithbrowser(theuri);
+                    string content = "";
+                    try
+                    {
+                        content = await pup.GetContentwithbrowser(theuri);
+                    }
+                    catch(PuppeteerSharp.NavigationException e)
+                    {
+                        Console.WriteLine("timed out");
+                        continue;
+                    }
                     theinfo.abs = await fetchabs(content);
                     sites.Add(theinfo);
 
@@ -107,6 +118,9 @@ namespace parser
         {
             sites.Clear();
         }
-
+        public List<siteinfo> getsites()
+        {
+            return sites;
+        }
     }
 }

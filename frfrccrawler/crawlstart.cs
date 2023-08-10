@@ -4,16 +4,17 @@ using System.Threading.Tasks;
 using pupcrawl;
 using engine;
 using parser;
+using System.Collections.Generic;
 
 
 
 namespace maintask
 {
-    class Program
+    class crawlstart
     {
 
         
-        static async Task Main(string[] args)
+        public static async Task<List<siteinfo>> start(string query, int request_number,string sort_method)
         {
             /*
             webCrawler newcrawl = new webCrawler(2);
@@ -25,21 +26,23 @@ namespace maintask
 
             // Register other services here
 
-        
+            /*
             string query = Console.ReadLine();
             int request_number = Int32.Parse(Console.ReadLine());
             string sort_method = Console.ReadLine();
-        
+            */
             fetchfromengine e = new fetchfromengine();
             Console.WriteLine("wdnjnw");
             string content = await e.start(request_number,query,sort_method);
             searchparser prsr = new searchparser(content);
             await prsr.start();
             prsr.revealall();
+            return prsr.getsites();
 
 
 
 
         }
+        
     }
 }
