@@ -14,7 +14,7 @@ namespace maintask
     {
 
         
-        public static async Task<List<siteinfo>> start(string query, int request_number,string sort_method)
+        public static async Task<List<siteinfo>> start(string query, int request_number,string sort_method,int start=0)
         {
             /*
             webCrawler newcrawl = new webCrawler(2);
@@ -33,7 +33,8 @@ namespace maintask
             */
             fetchfromengine e = new fetchfromengine();
             Console.WriteLine("wdnjnw");
-            string content = await e.start(request_number,query,sort_method);
+            string content = await e.start(request_number,query,sort_method,start);
+            searchparser.clear();
             searchparser prsr = new searchparser(content);
             await prsr.start();
             prsr.revealall();

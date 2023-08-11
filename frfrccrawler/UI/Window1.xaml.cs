@@ -38,7 +38,8 @@ namespace frfrccrawler
     }
     public partial class Window1 : Window
     {
-        
+        private int page = 0;
+        private string lastquery = "";
         public Window1()
         {
             InitializeComponent();
@@ -62,13 +63,17 @@ namespace frfrccrawler
         {
             //loadingGrid.Visibility = Visibility.Visible;
             spinner.IsLoading = true;
+     
             await on_search_async(sender,e);// while this is awaited, show loading ui
             //loadingGrid.Visibility = Visibility.Collapsed;
             spinner.IsLoading = false;
         }
-        private async Task on_search_async(object sender, RoutedEventArgs e)
+        private async Task on_search_async(object sender, RoutedEventArgs e,int start = 0)
         {
+            
             string query = topMarginTextBox.Text;
+            lastquery = query;
+
             string selectedText = preference.SelectedItem.ToString();
             string pref = "";
             Console.WriteLine(selectedText);
@@ -84,7 +89,7 @@ namespace frfrccrawler
             List<siteinfo> results = new List<siteinfo>();
             try
             {
-                results = await crawlstart.start(query, 10, pref);
+                results = await crawlstart.start(query, 10, pref,start);
             }
             catch(misspellexception s){
 
@@ -110,6 +115,34 @@ namespace frfrccrawler
             }
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
+        }
+        private async void on_next(object sender, RoutedEventArgs e)
+        {
+            page += 10;
+            //loadingGrid.Visibility = Visibility.Visible;
+            spinner.IsLoading = true;
+
+            await on_search_async(sender, e,page);// while this is awaited, show loading ui
+            //loadingGrid.Visibility = Visibility.Collapsed;
+            spinner.IsLoading = false;
+
+        }
+        private async void on_prev(object sender, RoutedEventArgs e)
+        {
+            if (page >= 10)
+            {
+                page -= 10;
+            }
+            else
+            {
+                return;
+            }
+            //loadingGrid.Visibility = Visibility.Visible;
+            spinner.IsLoading = true;
+
+            await on_search_async(sender, e, page);// while this is awaited, show loading ui
+            //loadingGrid.Visibility = Visibility.Collapsed;
+            spinner.IsLoading = false;
         }
 
 

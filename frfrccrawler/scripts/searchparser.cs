@@ -67,7 +67,7 @@ namespace parser
                     {
                         content = await pup.GetContentwithbrowser(theuri);
                     }
-                    catch(PuppeteerSharp.NavigationException e)
+                    catch(Exception e)
                     {
                         Console.WriteLine("timed out");
                         continue;
@@ -129,6 +129,10 @@ namespace parser
         public List<siteinfo> getsites()
         {
             return sites;
+        }
+        public static void clear()
+        {
+            sites.Clear();
         }
     }
 }
