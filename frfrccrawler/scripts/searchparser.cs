@@ -27,7 +27,10 @@ namespace parser
             return $"{title}, {date}\n Link: {uri}\n \t {abs}";
         }
     };
+    public class misspellexception: Exception
+    {
 
+    }
     class searchparser
     {
         private JObject document;
@@ -41,6 +44,11 @@ namespace parser
         public async Task start()
         {
             JArray results = (JArray)document["items"];
+            if (results == null)
+            {
+                Console.WriteLine("misspelling");
+                throw new misspellexception();
+            }
             int length = results.Count;
             for (int i = 0; i < length; i++)
             {

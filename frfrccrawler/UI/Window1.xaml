@@ -33,12 +33,14 @@
             <ComboBoxItem Content="By Relevence" />
             <ComboBoxItem Content="By Time" />
         </ComboBox>
-        <ListBox Grid.Column="0" ItemsSource="{Binding SearchResults}" ItemContainerStyle="{StaticResource item}" Margin="0,54,133,0" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <ListBox Grid.Column="0" ItemsSource="{Binding SearchResults}"  Margin="0,54,133,0" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding title}" FontWeight="Bold" >
-                             <Hyperlink NavigateUri="{Binding uri}" />
+                        <TextBlock FontWeight="Bold">
+    <Hyperlink NavigateUri="{Binding uri}" RequestNavigate="Hyperlink_RequestNavigate">
+        <Run Text="{Binding title}"/>
+    </Hyperlink>
                         </TextBlock>
                         <TextBlock Text="{Binding date}"/>
                         <TextBlock Width ="600" Text="{Binding abs}" FontStyle="Italic" TextWrapping="Wrap"/>
