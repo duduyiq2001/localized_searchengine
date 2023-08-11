@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Navigation;
 using System.Diagnostics;
+using LoadingSpinnerControl;
 
 
 namespace frfrccrawler
@@ -59,7 +60,11 @@ namespace frfrccrawler
         }
         private async void on_search(object sender, RoutedEventArgs e)
         {
-            await on_search_async(sender,e);
+            //loadingGrid.Visibility = Visibility.Visible;
+            spinner.IsLoading = true;
+            await on_search_async(sender,e);// while this is awaited, show loading ui
+            //loadingGrid.Visibility = Visibility.Collapsed;
+            spinner.IsLoading = false;
         }
         private async Task on_search_async(object sender, RoutedEventArgs e)
         {
